@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .card {
+      background-color: #333;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 50%;
+    }
+
+    .registration-form {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .registration-form input,
+    .registration-form select {
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: none;
+      width: 100%;
+    }
+
+    .registration-form button {
+      background: linear-gradient(45deg, #7199e4, #47c2a3, #80146e);
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      color: #fff;
+      cursor: pointer;
+      border-radius: 20px;
+      width: 50%;
+    }
+
+    .registration-form button:hover {
+      background: linear-gradient(45deg, #ff00ff, #00ffff, #ff00ff);
+    }
+
+    .login-icon {
+      width: 50px;
+      height: 50px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <img src="login.png" alt="Register Icon" class="login-icon">
+  <div class="registration-form">
+    <h2>Registration</h2>
+    <form>
+      <input type="text" placeholder="Name">
+      <br>
+      <input type="email" placeholder="Email">
+      <br>
+      <select name="role">
+        <option value="" selected disabled>Select Role</option>
+        <option value="principal">Principal</option>
+        <option value="teacher">Teacher</option>
+        <option value="security">Security</option>
+      </select>
+      <br>
+      <input type="password" placeholder="Password">
+      <br>
+      <button type="submit">Register</button>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>

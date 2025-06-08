@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>View Student Details</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --danger: #ef4444;
+      --danger-dark: #dc2626;
+      --dark: #1e293b;
+      --gray: #94a3b8;
+      --gray-light: #e2e8f0;
+      --light: #f8fafc;
+      --card-bg: #ffffff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f1f5f9;
+      color: var(--dark);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .navbar {
+      width: 100%;
+      background-color: var(--dark);
+      display: flex;
+      padding: 0 1rem;
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      padding: 1rem;
+      font-weight: 500;
+      transition: background-color 0.2s ease;
+    }
+
+    .navbar a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .navbar .logout-button {
+      margin-left: auto;
+      background-color: var(--danger);
+    }
+
+    .navbar .logout-button:hover {
+      background-color: var(--danger-dark);
+    }
+
+    .student-container {
+      max-width: 900px;
+      margin: 6rem auto 2rem;
+      padding: 1rem;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: var(--card-bg);
+      border: 1px solid var(--gray-light);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    th, td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--gray-light);
+    }
+
+    th {
+      background-color: var(--light);
+      color: var(--dark);
+      font-weight: 600;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9fafb;
+    }
+
+    img.student-photo {
+      max-width: 100px;
+      max-height: 100px;
+      border-radius: 4px;
+      border: 1px solid var(--gray-light);
+    }
+
+    @media (max-width: 600px) {
+      table {
+        font-size: 0.875rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="/add">Add Student</a>
+    <a href="/permit-student">Permit Student</a>
+    <a href="/notify">Notify</a>
+    <a href="/logout" class="logout-button">Logout</a>
+  </nav>
+
+  <div class="student-container">
+    <h1>Student Details</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Roll Number</th>
+          <th>Parent Email</th>
+          <th>Photo</th>
+        </tr>
+      </thead>
+      <tbody id="studentDetails">
+        <tr><td colspan="4">Loading...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    fetch('/get-students')
+      .then(response => response.json())
+      .then(students => {
+        const tbody = document.getElementById('studentDetails');
+        tbody.innerHTML = ''; // Clear "Loading..." row
+
+        students.forEach(student => {
+          const row = document.createElement('tr');
+
+          const nameCell = document.createElement('td');
+          nameCell.textContent = student.name;
+
+          const rollCell = document.createElement('td');
+          rollCell.textContent = student.rollNumber;
+
+          const emailCell = document.createElement('td');
+          emailCell.textContent = student.parentEmail;
+
+          const photoCell = document.createElement('td');
+          if (typeof student.picture === 'string') {
+            const img = document.createElement('img');
+            img.src = `data:image/jpeg;base64,${student.picture}`;
+            img.alt = 'Student Photo';
+            img.className = 'student-photo';
+            photoCell.appendChild(img);
+          } else {
+            photoCell.textContent = 'No Photo';
+          }
+
+          row.appendChild(nameCell);
+          row.appendChild(rollCell);
+          row.appendChild(emailCell);
+          row.appendChild(photoCell);
+
+          tbody.appendChild(row);
+        });
+      })
+      .catch(err => {
+        console.error('Error fetching student details:', err);
+        document.getElementById('studentDetails').innerHTML =
+          '<tr><td colspan="4" style="color: red;">Error loading data.</td></tr>';
+      });
+  </script>
+</body>
+</html>
